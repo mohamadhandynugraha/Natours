@@ -10,21 +10,8 @@ const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-// get url request
-app.get('/', (req, res) => {
-    res.status(200).json({
-        message: `Hello from the server ${req}`,
-        app: 'Natours API build'
-    });
-});
 
-// post url request
-app.post('/user', (req, res) => {
-    res.send('You can post to this user url');
-});
-
-// api v1 get simple tours
-app.get('/api/v1/tours', (req, res) => {
+const getAllTours = (req, res) => {
     res.status(200).json({
         message: 'success',
         results: tours.length,
@@ -32,11 +19,9 @@ app.get('/api/v1/tours', (req, res) => {
             tours
         }
     });
-});
+}
 
-// api v1 get simple tours id, using params
-// optional params -> using this -> ? /api/v1/tours/:id/:category?
-app.get('/api/v1/tours/:id/', (req, res) => {
+const getTour = (req, res) => {
     // munculkan data dari id
     // convert id dulu dari req.params.id -> jadi number
     const id = req.params.id * 1
@@ -56,13 +41,9 @@ app.get('/api/v1/tours/:id/', (req, res) => {
             message: '404 Data not found'
         })
     }
+}
 
-    
-})
-
-// api v1 post to create a new tours
-// kalau kodingan ini mau dapetin body dari request Kalau gak pake middleware error dia
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
     // disini kita buat new tour dengan id baru, untuk sekarang belum ada db, jadi generate id manual
     const newId = tours[tours.length - 1].id + 14;
     const newTour = Object.assign({ id: newId }, req.body);
@@ -80,10 +61,9 @@ app.post('/api/v1/tours', (req, res) => {
             });
         }
     );
-});
+}
 
-// update api v1 simple tour api using patch
-app.patch('/api/v1/tours/:id', (req, res) => {
+const updateTour = (req, res) => {
     // kita disini masih belum update secara langsung, karena masih terlalu awal untuk update database
     // karena pekerjaan update data membutuhkan kerja yang banyak
     if(req.params.id * 1 < tours.length){
@@ -99,10 +79,9 @@ app.patch('/api/v1/tours/:id', (req, res) => {
             message: '404 data not found'
         })
     }
-})
+}
 
-// delete api v1 simple tour 
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
     if(req.params.id * 1 < tours.length){
         res.status(200).json({
             status: 'success',
@@ -116,7 +95,28 @@ app.delete('/api/v1/tours/:id', (req, res) => {
             message: '404 id or data not found'
         })
     }
-})
+}
+
+// // api v1 get simple tours
+// app.get('/api/v1/tours', getAllTours);
+
+// // api v1 get simple tours id, using params
+// // optional params -> using this -> ? /api/v1/tours/:id/:category?
+// app.get('/api/v1/tours/:id/', getTour)
+
+// // api v1 post to create a new tours
+// // kalau kodingan ini mau dapetin body dari request Kalau gak pake middleware error dia
+// app.post('/api/v1/tours', createTour);
+
+// // update api v1 simple tour api using patch
+// app.patch('/api/v1/tours/:id', updateTour)
+
+// // delete api v1 simple tour 
+// app.delete('/api/v1/tours/:id', deleteTour)
+
+// bikin route yang lebih simple
+app.route('/api/v1/tours').get(getAllTours).post(createTour)
+app.route('/api/v1/tours/:id').get(getTour).patch(updateTour).delete(deleteTour)
 
 const port = 3000;
 app.listen(port, () => {
