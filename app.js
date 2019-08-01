@@ -82,6 +82,25 @@ app.post('/api/v1/tours', (req, res) => {
     );
 });
 
+// update api v1 simple tour api using patch
+app.patch('/api/v1/tours/:id', (req, res) => {
+    // kita disini masih belum update secara langsung, karena masih terlalu awal untuk update database
+    // karena pekerjaan update data membutuhkan kerja yang banyak
+    if(req.params.id * 1 < tours.length){
+        res.status(200).json({
+            status: 'success',
+            data: {
+                tour: '<updated in the later section.......>'
+            } 
+        })
+    } else {
+        res.status(404).json({
+            status: 'fail',
+            message: '404 data not found'
+        })
+    }
+})
+
 const port = 3000;
 app.listen(port, () => {
     console.log(`Listening from port ${port}`);
