@@ -34,6 +34,32 @@ app.get('/api/v1/tours', (req, res) => {
     });
 });
 
+// api v1 get simple tours id, using params
+// optional params -> using this -> ? /api/v1/tours/:id/:category?
+app.get('/api/v1/tours/:id/', (req, res) => {
+    // munculkan data dari id
+    // convert id dulu dari req.params.id -> jadi number
+    const id = req.params.id * 1
+    const tour = tours.find(element => element.id === id)
+
+    // check if id is less than tours array, jika lebih besar dari array maka tampilkan 404
+    if(id < tours.length - 1){
+        res.status(200).json({
+            message: 'success',
+            data: {
+                tour
+            }
+        })
+    } else {
+        res.status(404).json({
+            status : 'fail',
+            message: '404 Data not found'
+        })
+    }
+
+    
+})
+
 // api v1 post to create a new tours
 // kalau kodingan ini mau dapetin body dari request Kalau gak pake middleware error dia
 app.post('/api/v1/tours', (req, res) => {
