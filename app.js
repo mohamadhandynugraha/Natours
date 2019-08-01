@@ -101,6 +101,23 @@ app.patch('/api/v1/tours/:id', (req, res) => {
     }
 })
 
+// delete api v1 simple tour 
+app.delete('/api/v1/tours/:id', (req, res) => {
+    if(req.params.id * 1 < tours.length){
+        res.status(200).json({
+            status: 'success',
+            data: {
+                tour: '<delete in the later section....>'
+            }
+        })
+    } else {
+        res.status(404).json({
+            status: 'fail',
+            message: '404 id or data not found'
+        })
+    }
+})
+
 const port = 3000;
 app.listen(port, () => {
     console.log(`Listening from port ${port}`);
