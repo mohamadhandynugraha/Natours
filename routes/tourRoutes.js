@@ -6,6 +6,8 @@ const tourController = require('./../controller/tourController')
 // bikin variable router, (inisialisasi router)
 const router = express.Router();
 
+router.param('id', tourController.checkID)
+
 router
     .route('/')
     .get(tourController.getAllTours)
