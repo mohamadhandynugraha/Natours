@@ -3,7 +3,21 @@ const express = require('express');
 const app = express();
 
 // kode dibawah ini merupakan middleware
+// .use digunakan untuk implementasi middleware dan menambahkannya ke middleware stack
 app.use(express.json());
+
+// teorinya middleware function di express bisa mengakses req, res dan next function
+// biasanya middleware diletakkan sebelum routing
+app.use((req, res, next) => {
+    console.log('Hello from the middleware');
+    next(); // selalu menggunakan next() karena ini kuncinya pada konsep middleware express
+});
+
+// sekarang mau coba tambahkan waktu dan tanggal
+app.use((req, res, next) => {
+    req.requesTime = new Date().toISOString()
+    next()
+})
 
 // synchronus version to get data simpletour.Jefferson
 const tours = JSON.parse(
@@ -17,7 +31,7 @@ const getAllTours = (req, res) => {
         data: {
             tours
         }
-    });
+    }); // akhir dari req -> res cycle
 };
 
 const getTour = (req, res) => {
@@ -30,6 +44,7 @@ const getTour = (req, res) => {
     if (id < tours.length - 1) {
         res.status(200).json({
             message: 'success',
+            requestAtTime: req.requesTime,
             data: {
                 tour
             }
