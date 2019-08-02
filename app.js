@@ -125,22 +125,43 @@ const deleteTour = (req, res) => {
     }
 };
 
-// // api v1 get simple tours
-// app.get('/api/v1/tours', getAllTours);
+/**
+ * User ROUTE
+ */
+const getAllUsers = (req, res) => {
+    res.status(500).json({
+        status : 'error',
+        message : `This route hasn't been defined`
+    })
+}
 
-// // api v1 get simple tours id, using params
-// // optional params -> using this -> ? /api/v1/tours/:id/:category?
-// app.get('/api/v1/tours/:id/', getTour)
+const getUser = (req, res) => {
+    res.status(500).json({
+        status : 'error',
+        message : `This route hasn't been defined`
+    })
+}
 
-// // api v1 post to create a new tours
-// // kalau kodingan ini mau dapetin body dari request Kalau gak pake middleware error dia
-// app.post('/api/v1/tours', createTour);
+const createUser = (req, res) => {
+    res.status(500).json({
+        status : 'error',
+        message : `This route hasn't been defined`
+    })
+}
 
-// // update api v1 simple tour api using patch
-// app.patch('/api/v1/tours/:id', updateTour)
+const updateUser = (req, res) => {
+    res.status(500).json({
+        status : 'error',
+        message : `This route hasn't been defined`
+    })
+}
 
-// // delete api v1 simple tour
-// app.delete('/api/v1/tours/:id', deleteTour)
+const deleteUser = (req, res) => {
+    res.status(500).json({
+        status : 'error',
+        message : `This route hasn't been defined`
+    })
+}
 
 // bikin route yang lebih simple
 /**
@@ -153,6 +174,15 @@ app.route('/api/v1/tours/:id')
     .get(getTour)
     .patch(updateTour)
     .delete(deleteTour);
+
+// user ROUTES
+app.route('/api/v1/users')
+    .get(getAllUsers)
+    .post(createUser);
+app.route('/api/v1/users/:id')
+    .get(getUser)
+    .patch(updateUser)
+    .delete(deleteUser);
 
 /**
  * 4. Start server
