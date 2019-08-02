@@ -1,6 +1,14 @@
 const fs = require('fs');
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
+
+/**
+ * 1. Middleware
+ */
+
+// ini middleware pake morgan, 3rd party middleware
+app.use(morgan('dev'));
 
 // kode dibawah ini merupakan middleware
 // .use digunakan untuk implementasi middleware dan menambahkannya ke middleware stack
@@ -15,14 +23,20 @@ app.use((req, res, next) => {
 
 // sekarang mau coba tambahkan waktu dan tanggal
 app.use((req, res, next) => {
-    req.requesTime = new Date().toISOString()
-    next()
-})
+    req.requesTime = new Date().toISOString();
+    next();
+});
 
 // synchronus version to get data simpletour.Jefferson
 const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
+
+/**
+ * 2. route handlers
+ * ---------------------------------------------
+ * Route handlers
+ */
 
 const getAllTours = (req, res) => {
     res.status(200).json({
@@ -129,6 +143,9 @@ const deleteTour = (req, res) => {
 // app.delete('/api/v1/tours/:id', deleteTour)
 
 // bikin route yang lebih simple
+/**
+ * 3. ROUTES
+ */
 app.route('/api/v1/tours')
     .get(getAllTours)
     .post(createTour);
@@ -137,6 +154,9 @@ app.route('/api/v1/tours/:id')
     .patch(updateTour)
     .delete(deleteTour);
 
+/**
+ * 4. Start server
+ */
 const port = 3000;
 app.listen(port, () => {
     console.log(`Listening from port ${port}`);
