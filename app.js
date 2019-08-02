@@ -163,27 +163,34 @@ const deleteUser = (req, res) => {
     })
 }
 
+
+// kita mau mounting router
+const tourRouter = express.Router()
+const userRouter = express.Router()
+
 // bikin route yang lebih simple
 /**
  * 3. ROUTES
  */
-app.route('/api/v1/tours')
+tourRouter.route('/')
     .get(getAllTours)
     .post(createTour);
-app.route('/api/v1/tours/:id')
+tourRouter.route('/:id')
     .get(getTour)
     .patch(updateTour)
     .delete(deleteTour);
 
 // user ROUTES
-app.route('/api/v1/users')
+userRouter.route('/')
     .get(getAllUsers)
     .post(createUser);
-app.route('/api/v1/users/:id')
+userRouter.route('/:id')
     .get(getUser)
     .patch(updateUser)
     .delete(deleteUser);
 
+app.use('/api/v1/tours', tourRouter)
+app.use('/api/v1/users', userRouter)
 /**
  * 4. Start server
  */
