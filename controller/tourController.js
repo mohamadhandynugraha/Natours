@@ -19,7 +19,7 @@ exports.checkID = (req, res, next, val) => {
 
 // check body request
 exports.checkBody = (req, res, next) => {
-    if(!req.body.name && !req.body.price){
+    if(!req.body.name || !req.body.price){
         return res.status(400).json({
             status: 'fail',
             message: 'There is no name and price in the tour!'
