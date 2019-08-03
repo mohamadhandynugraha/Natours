@@ -11,7 +11,11 @@ const userRouter = require('./routes/userRoutes');
  */
 
 // ini middleware pake morgan, 3rd party middleware
-app.use(morgan('dev'));
+// menambahkan if untuk cek node env pada mode development
+console.log(process.env.NODE_ENV)
+if(process.env.NODE_ENV === 'development'){
+    app.use(morgan('dev'));
+}
 
 // kode dibawah ini merupakan middleware
 // .use digunakan untuk implementasi middleware dan menambahkannya ke middleware stack
