@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+
 const app = express();
 
 // import routernya
@@ -12,8 +13,8 @@ const userRouter = require('./routes/userRoutes');
 
 // ini middleware pake morgan, 3rd party middleware
 // menambahkan if untuk cek node env pada mode development
-console.log(process.env.NODE_ENV)
-if(process.env.NODE_ENV === 'development'){
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 

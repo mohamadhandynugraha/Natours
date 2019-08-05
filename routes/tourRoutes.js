@@ -1,13 +1,12 @@
 const express = require('express');
 
 // import tourController
-const tourController = require('./../controller/tourController')
+const tourController = require('./../controller/tourController');
 
 // bikin variable router, (inisialisasi router)
 const router = express.Router();
 
-router.param('id', tourController.checkID)
-
+router.param('id', tourController.checkID);
 
 // create a checkBody middleware
 // check if the request body has a property name and price
