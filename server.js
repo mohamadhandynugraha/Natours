@@ -9,7 +9,7 @@ mongoose
         useCreateIndex: true,
         useFindAndModify: false
     })
-    .then(con => console.log('connect db localhost success', con.connections));
+    .then(() => console.log('connect db localhost success'));
 /**
  * START SERVER
  */
