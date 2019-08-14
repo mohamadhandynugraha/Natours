@@ -76,8 +76,8 @@ exports.updateTour = async (req, res) => {
 };
 
 exports.deleteTour = async (req, res) => {
-    await Tour.findByIdAndDelete(req.params.id);
     try {
+        await Tour.findByIdAndDelete(req.params.id);
         res.status(201).json({
             status: 'success',
             result: 'Data berhasil di hapus'
