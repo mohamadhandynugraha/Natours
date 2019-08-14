@@ -4,31 +4,39 @@ const Tour = require('../models/tourModel');
  * Route handlers
  */
 
-exports.getAllTours = (req, res) => {
-    res.status(200).json({
-        message: 'success'
-        // results: tours.length,
-        // data: {
-        //     tours
-        // }
-    }); // akhir dari req -> res cycle
+exports.getAllTours = async (req, res) => {
+    try {
+        const tours = await Tour.find(req.body);
+        res.status(200).json({
+            message: 'success',
+            results: tours.length,
+            data: {
+                tours
+            }
+        }); // akhir dari req -> res cycle
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: err
+        });
+    }
 };
 
-exports.getTour = (req, res) => {
-    // munculkan data dari id
-    // convert id dulu dari req.params.id -> jadi number
-    // const id = req.params.id * 1;
-    // const tour = tours.find(element => element.id === id);
-
-    // check if id is less than tours array, jika lebih besar dari array maka tampilkan 404
-
-    res.status(200).json({
-        message: 'success',
-        requestAtTime: req.requesTime
-        // data: {
-        //     tour
-        // }
-    });
+exports.getTour = async (req, res) => {
+    try {
+        const tour = await Tour.findById(req.params.id);
+        res.status(200).json({
+            message: 'success',
+            data: {
+                tour
+            }
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: err
+        });
+    }
 };
 
 exports.createTour = async (req, res) => {
@@ -48,23 +56,36 @@ exports.createTour = async (req, res) => {
     }
 };
 
-exports.updateTour = (req, res) => {
-    // kita disini masih belum update secara langsung, karena masih terlalu awal untuk update database
-    // karena pekerjaan update data membutuhkan kerja yang banyak
-
-    res.status(200).json({
-        status: 'success',
-        data: {
-            tour: '<updated in the later section.......>'
-        }
+exports.updateTour = async (req, res) => {
+    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+        new: true
     });
+    try {
+        res.status(200).json({
+            status: 'success',
+            data: {
+                tour
+            }
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: err
+        });
+    }
 };
 
-exports.deleteTour = (req, res) => {
-    res.status(200).json({
-        status: 'success',
-        data: {
-            tour: '<delete in the later section....>'
-        }
-    });
+exports.deleteTour = async (req, res) => {
+    await Tour.findByIdAndDelete(req.params.id);
+    try {
+        res.status(201).json({
+            status: 'success',
+            result: 'Data berhasil di hapus'
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: err
+        });
+    }
 };
