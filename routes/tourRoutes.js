@@ -5,10 +5,11 @@ const tourController = require('./../controller/tourController');
 
 // bikin variable router, (inisialisasi router)
 const router = express.Router();
-// create a checkBody middleware
-// check if the request body has a property name and price
-// if not send 400
-// add to post handler stack
+
+// menambahkan aliasing top 5 cheap tours
+router
+    .route('/top-5-tours')
+    .get(tourController.aliasTopTours, tourController.getAllTours);
 
 router
     .route('/')
