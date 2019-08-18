@@ -24,10 +24,10 @@ app.use(express.json());
 
 // teorinya middleware function di express bisa mengakses req, res dan next function
 // biasanya middleware diletakkan sebelum routing
-app.use((req, res, next) => {
-    console.log('Hello from the middleware');
-    next(); // selalu menggunakan next() karena ini kuncinya pada konsep middleware express
-});
+// app.use((req, res, next) => {
+//     console.log('Hello from the middleware');
+//     next(); // selalu menggunakan next() karena ini kuncinya pada konsep middleware express
+// });
 
 // sekarang mau coba tambahkan waktu dan tanggal
 app.use((req, res, next) => {
@@ -38,5 +38,15 @@ app.use((req, res, next) => {
 // ROUTES, MIDDLEWARE
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
+
+// HANDLING ROUTE YANG GAK KITA BIKIN
+// MISALKAN ROUTE /API/TOURS/QWERTY     <-- RUTE INI TIDAK KITA BIKIN. KALAU KITA REQ RUTE TSB AKAN ADA ERROR CANNOT GET ROUTE HTML
+// SOLUSINYA PAKE APP.ALL DARI EXPRESS
+app.all('*', (req, res, next) => {
+    res.status(404).json({
+        status: 'fail',
+        message: `Can't find ${req.originalUrl} on this server!`
+    });
+});
 
 module.exports = app;
