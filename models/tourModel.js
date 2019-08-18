@@ -6,7 +6,14 @@ const tourSchema = new mongoose.Schema(
         name: {
             type: String,
             required: [true, 'a tour must have a name'],
-            unique: true
+            unique: true,
+            // MENAMBAHKAN VALIDATOR LAGI PADA NAME
+            trim: true,
+            maxlength: [
+                40,
+                'a tour must have less than or equal 40 characters'
+            ],
+            minlength: [10, 'a tour must have more than or equal 10 characters']
         },
         slug: String,
         duration: {
@@ -19,11 +26,17 @@ const tourSchema = new mongoose.Schema(
         },
         difficulty: {
             type: String,
-            required: [true, 'a tour must have difficulty']
+            required: [true, 'a tour must have difficulty'],
+            enum: {
+                values: ['easy', 'medium', 'difficult'],
+                message: 'Difficulty is either: easy, medium or difficult'
+            }
         },
         ratingsAverage: {
             type: Number,
-            default: 4.5
+            default: 4.5,
+            min: [1, 'Rating must above 1'],
+            max: [5, 'Rating must below or equal 5']
         },
         ratingsQuantity: {
             type: Number,
